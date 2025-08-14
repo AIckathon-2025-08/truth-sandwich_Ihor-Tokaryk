@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @user.full_name %> - Truth Sandwich</title>
+  <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+  <div class="container">
+    <h1>👤 <%= @user.full_name %></h1>
+    
+    <div style="margin-bottom: 20px;">
+      <a href="/users" class="btn btn-secondary">Back to Users</a>
+      <a href="/users/<%= @user.id %>/edit" class="btn">Edit User</a>
+    </div>
+    
+    <div class="user-details">
+      <p><strong>First Name:</strong> <%= @user.first_name %></p>
+      <p><strong>Last Name:</strong> <%= @user.last_name %></p>
+      <p><strong>Email:</strong> <%= @user.email %></p>
+      <p><strong>Position:</strong> <%= @user.position %></p>
+      <p><strong>Admin:</strong> <%= @user.admin? ? 'Yes' : 'No' %></p>
+      <p><strong>Created:</strong> <%= @user.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+      <p><strong>Updated:</strong> <%= @user.updated_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+    </div>
+    
+    <div style="margin-top: 30px;">
+      <form method="post" action="/users/<%= @user.id %>" onsubmit="return confirm('Are you sure you want to delete this user?')" style="display: inline;">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit" class="btn btn-danger">Delete User</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
