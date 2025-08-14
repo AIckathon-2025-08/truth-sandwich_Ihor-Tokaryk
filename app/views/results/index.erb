@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Results - Truth Sandwich</title>
+  <link rel="stylesheet" href="/main.css">
+  <script>
+    function updateResults() {
+      fetch('/results/api')
+        .then(response => response.json())
+        .then(data => {
+          if (data.active) {
+            document.getElementById('results-content').style.display = 'block';
+            document.getElementById('no-game').style.display = 'none';
+            
+            const game = data.game;
+            document.getElementById('game-name').textContent = game.name;
+            document.getElementById('game-position').textContent = game.position;
+            document.getElementById('total-votes').textContent = game.total_votes;
+            
+            // Update vote counts
+            game.statements.forEach((statement, index) => {
+              const count = game.vote_counts[statement.type];
+              const percentage = game.total_votes > 0 ? Math.round((count / game.total_votes) * 100) : 0;
+              
+              document.getElementById(`statement-${index + 1}-text`).textContent = statement.text;
+              document.getElementById(`statement-${index + 1}-votes`).textContent = count;
+              document.getElementById(`statement-${index + 1}-percentage`).textContent = percentage;
+              document.getElementById(`statement-${index + 1}-bar`).style.width = percentage + '%';
+              
+              // Highlight the lie
+              const container = document.getElementById(`statement-${index + 1}`);
+              if (statement.type === 'lie') {
+                container.classList.add('lie-statement');
+                container.classList.remove('truth-statement');
+              } else {
+                container.classList.add('truth-statement');
+                container.classList.remove('lie-statement');
+              }
+            });
+          } else {
+            document.getElementById('results-content').style.display = 'none';
+            document.getElementById('no-game').style.display = 'block';
+          }
+        })
+        .catch(error => console.error('Error updating results:', error));
+    }
+    
+    // Update results every 3 seconds
+    setInterval(updateResults, 3000);
+    
+    // Update on page load
+    window.onload = updateResults;
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>📊 Live Results</h1>
+    
+    <div style="margin-bottom: 20px;">
+      <a href="/" class="btn btn-secondary">Home</a>
+      <a href="/voting" class="btn">Vote</a>
+      <a href="/games" class="btn btn-secondary">Game Admin</a>
+    </div>
+    
+    <div id="no-game" style="display: <%= @game ? 'none' : 'block' %>;">
+      <p>No active game to show results for.</p>
+    </div>
+    
+    <div id="results-content" style="display: <%= @game ? 'block' : 'none' %>;">
+      <div class="results-header">
+        <h2 id="game-name"><%= @game&.name %></h2>
+        <p id="game-position"><%= @game&.position %></p>
+        <p>Total Votes: <span id="total-votes"><%= @total_votes || 0 %></span></p>
+      </div>
+      
+      <div class="results-grid">
+        <% if @game %>
+          <% @statements.each_with_index do |statement, index| %>
+            <div id="statement-<%= index + 1 %>" class="result-item <%= statement[:type] == 'lie' ? 'lie-statement' : 'truth-statement' %>">
+              <h3>Statement <%= index + 1 %></h3>
+              <p id="statement-<%= index + 1 %>-text" class="statement-text"><%= statement[:text] %></p>
+              <div class="vote-info">
+                <span id="statement-<%= index + 1 %>-votes"><%= @vote_counts[statement[:type].to_sym] %></span> votes
+                (<span id="statement-<%= index + 1 %>-percentage"><%= @total_votes > 0 ? (@vote_counts[statement[:type].to_sym].to_f / @total_votes * 100).round : 0 %></span>%)
+              </div>
+              <div class="progress-bar">
+                <div id="statement-<%= index + 1 %>-bar" class="progress-fill" style="width: <%= @total_votes > 0 ? (@vote_counts[statement[:type].to_sym].to_f / @total_votes * 100).round : 0 %>%;"></div>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <div id="statement-1" class="result-item">
+            <h3>Statement 1</h3>
+            <p id="statement-1-text" class="statement-text">-</p>
+            <div class="vote-info"><span id="statement-1-votes">0</span> votes (<span id="statement-1-percentage">0</span>%)</div>
+            <div class="progress-bar"><div id="statement-1-bar" class="progress-fill" style="width: 0%;"></div></div>
+          </div>
+          <div id="statement-2" class="result-item">
+            <h3>Statement 2</h3>
+            <p id="statement-2-text" class="statement-text">-</p>
+            <div class="vote-info"><span id="statement-2-votes">0</span> votes (<span id="statement-2-percentage">0</span>%)</div>
+            <div class="progress-bar"><div id="statement-2-bar" class="progress-fill" style="width: 0%;"></div></div>
+          </div>
+          <div id="statement-3" class="result-item">
+            <h3>Statement 3</h3>
+            <p id="statement-3-text" class="statement-text">-</p>
+            <div class="vote-info"><span id="statement-3-votes">0</span> votes (<span id="statement-3-percentage">0</span>%)</div>
+            <div class="progress-bar"><div id="statement-3-bar" class="progress-fill" style="width: 0%;"></div></div>
+          </div>
+        <% end %>
+      </div>
+      
+      <p><em>Results update automatically every 3 seconds</em></p>
+    </div>
+  </div>
+</body>
+</html>

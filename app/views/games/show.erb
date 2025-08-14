@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @game.name %> - Game Details</title>
+  <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 <%= @game.name %></h1>
+    <h2><%= @game.position %></h2>
+    
+    <div style="margin-bottom: 20px;">
+      <a href="/games" class="btn btn-secondary">Back to Admin</a>
+      <% if @game.active? %>
+        <span style="color: green; font-weight: bold; margin-left: 10px;">🟢 This game is currently active</span>
+      <% else %>
+        <span style="color: gray; margin-left: 10px;">⚫ This game is inactive</span>
+      <% end %>
+    </div>
+    
+    <div class="game-details">
+      <h3>Statements:</h3>
+      <div class="statements">
+        <div class="statement truth">
+          <strong>Truth #1:</strong> <%= @game.truth_1 %>
+          <span class="vote-count">(<%= @vote_counts[:truth_1] %> votes)</span>
+        </div>
+        <div class="statement truth">
+          <strong>Truth #2:</strong> <%= @game.truth_2 %>
+          <span class="vote-count">(<%= @vote_counts[:truth_2] %> votes)</span>
+        </div>
+        <div class="statement lie">
+          <strong>The Lie:</strong> <%= @game.lie %>
+          <span class="vote-count">(<%= @vote_counts[:lie] %> votes)</span>
+        </div>
+      </div>
+      
+      <div class="stats">
+        <h3>Statistics:</h3>
+        <p><strong>Total Votes:</strong> <%= @game.total_votes %></p>
+        <p><strong>Created:</strong> <%= @game.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+        <p><strong>Employee:</strong> <%= @game.user.full_name %></p>
+      </div>
+    </div>
+    
+    <div style="margin-top: 30px;">
+      <form method="post" action="/games/<%= @game.id %>/toggle" style="display: inline;">
+        <input type="hidden" name="_method" value="put">
+        <button type="submit" class="btn <%= @game.active? ? 'btn-secondary' : '' %>">
+          <%= @game.active? ? 'Deactivate Game' : 'Activate Game' %>
+        </button>
+      </form>
+      
+      <form method="post" action="/games/<%= @game.id %>" onsubmit="return confirm('Delete this game and all votes?')" style="display: inline;">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit" class="btn btn-danger">Delete Game</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -8,11 +8,18 @@
   <div class="container">
     <h1>🍞 Truth Sandwich</h1>
     <p>Welcome to your Sinatra application!</p>
-    <p>This is a simple one-file Sinatra app with a root route that can be booted via rackup.</p>
+    <p>Play "Two Truths and a Lie" with your team!</p>
     
     <div style="margin-top: 30px;">
-      <h2>Available Sections:</h2>
-      <a href="/users" class="btn">👥 Manage Users</a>
+      <h2>🎮 Game Sections:</h2>
+      <div class="nav-grid">
+        <a href="/games" class="btn nav-btn">🔧 Game Admin<br><small>Create and manage games</small></a>
+        <a href="/voting" class="btn nav-btn">🗳️ Vote<br><small>Cast your vote</small></a>
+        <a href="/results" class="btn nav-btn">📊 Live Results<br><small>See votes in real-time</small></a>
+      </div>
+      
+      <h2 style="margin-top: 40px;">⚙️ Administration:</h2>
+      <a href="/users" class="btn btn-secondary">👥 Manage Users</a>
     </div>
   </div>
 </body>

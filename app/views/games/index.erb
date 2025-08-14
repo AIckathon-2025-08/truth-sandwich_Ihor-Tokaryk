@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Game Admin - Truth Sandwich</title>
+  <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 Game Administration</h1>
+    
+    <div style="margin-bottom: 20px;">
+      <a href="/" class="btn btn-secondary">Home</a>
+      <a href="/users" class="btn btn-secondary">Manage Users</a>
+      <a href="/voting" class="btn">Vote</a>
+      <a href="/results" class="btn">Live Results</a>
+    </div>
+    
+    <% if @game && @game.errors.any? %>
+      <div class="errors">
+        <h3>Please fix the following errors:</h3>
+        <ul>
+          <% @game.errors.full_messages.each do |error| %>
+            <li><%= error %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <div class="game-section">
+      <h2>Create New Game</h2>
+      <form method="post" action="/games">
+        <div class="form-group">
+          <label for="user_id">Select Employee:</label>
+          <select id="user_id" name="user_id" required>
+            <option value="">Choose an employee...</option>
+            <% @users.each do |user| %>
+              <option value="<%= user.id %>"><%= user.full_name %> - <%= user.position %></option>
+            <% end %>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="name">Display Name:</label>
+          <input type="text" id="name" name="name" placeholder="e.g., John Smith" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="position">Display Position:</label>
+          <input type="text" id="position" name="position" placeholder="e.g., Software Engineer" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="truth_1">Truth #1:</label>
+          <textarea id="truth_1" name="truth_1" placeholder="Enter the first true statement..." required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="truth_2">Truth #2:</label>
+          <textarea id="truth_2" name="truth_2" placeholder="Enter the second true statement..." required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="lie">The Lie:</label>
+          <textarea id="lie" name="lie" placeholder="Enter the false statement..." required></textarea>
+        </div>
+        
+        <button type="submit" class="btn">Create Game & Make Active</button>
+      </form>
+    </div>
+    
+    <div class="games-list">
+      <h2>Previous Games</h2>
+      <% if @games.empty? %>
+        <p>No games created yet.</p>
+      <% else %>
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Status</th>
+              <th>Total Votes</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @games.each do |game| %>
+              <tr>
+                <td><%= game.name %></td>
+                <td><%= game.position %></td>
+                <td>
+                  <% if game.active? %>
+                    <span style="color: green; font-weight: bold;">🟢 Active</span>
+                  <% else %>
+                    <span style="color: gray;">⚫ Inactive</span>
+                  <% end %>
+                </td>
+                <td><%= game.total_votes %></td>
+                <td><%= game.created_at.strftime("%m/%d at %I:%M %p") %></td>
+                <td class="actions">
+                  <a href="/games/<%= game.id %>" class="btn btn-small">View</a>
+                  <form style="display: inline;" method="post" action="/games/<%= game.id %>/toggle">
+                    <input type="hidden" name="_method" value="put">
+                    <button type="submit" class="btn btn-small <%= game.active? ? 'btn-secondary' : '' %>">
+                      <%= game.active? ? 'Deactivate' : 'Activate' %>
+                    </button>
+                  </form>
+                  <form style="display: inline;" method="post" action="/games/<%= game.id %>" onsubmit="return confirm('Delete this game?')">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</body>
+</html>

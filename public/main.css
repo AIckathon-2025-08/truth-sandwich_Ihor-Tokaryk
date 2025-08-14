@@ -157,3 +157,204 @@ p {
 .actions {
   margin: 20px 0;
 }
+
+/* Game-specific styles */
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.nav-btn {
+  text-align: center;
+  padding: 20px;
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+.nav-btn small {
+  display: block;
+  font-size: 0.8em;
+  margin-top: 5px;
+  opacity: 0.8;
+}
+
+.game-section {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.games-list {
+  margin: 30px 0;
+}
+
+.voting-section {
+  background-color: #f0f8ff;
+  padding: 30px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.position {
+  font-style: italic;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.statements-voting {
+  margin: 20px 0;
+}
+
+.statement-option {
+  display: block;
+  margin: 15px 0;
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.statement-option:hover {
+  border-color: #007bff;
+  background-color: #f8f9fa;
+}
+
+.statement-option input[type="radio"] {
+  margin-right: 10px;
+}
+
+.statement-text {
+  font-weight: normal;
+  margin-left: 25px;
+}
+
+.btn-large {
+  padding: 15px 30px;
+  font-size: 1.1em;
+  margin-top: 20px;
+}
+
+/* Results page styles */
+.results-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.result-item {
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+}
+
+.truth-statement {
+  background-color: #d4edda;
+  border-color: #28a745;
+}
+
+.lie-statement {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+}
+
+.vote-info {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #007bff;
+  transition: width 0.5s ease;
+}
+
+.lie-statement .progress-fill {
+  background-color: #dc3545;
+}
+
+.truth-statement .progress-fill {
+  background-color: #28a745;
+}
+
+/* Game details styles */
+.game-details {
+  margin: 20px 0;
+}
+
+.statements {
+  margin: 20px 0;
+}
+
+.statement {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.statement.truth {
+  background-color: #d4edda;
+  border-left-color: #28a745;
+}
+
+.statement.lie {
+  background-color: #f8d7da;
+  border-left-color: #dc3545;
+}
+
+.vote-count {
+  float: right;
+  font-weight: bold;
+  color: #666;
+}
+
+.stats {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+/* Form improvements */
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  min-height: 80px;
+  resize: vertical;
+}
+
+select:focus, textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}

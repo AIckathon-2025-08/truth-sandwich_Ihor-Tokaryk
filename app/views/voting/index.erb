@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vote - Truth Sandwich</title>
+  <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🗳️ Two Truths and a Lie</h1>
+    
+    <div style="margin-bottom: 20px;">
+      <a href="/" class="btn btn-secondary">Home</a>
+      <a href="/results" class="btn">View Results</a>
+    </div>
+    
+    <% if @error %>
+      <div class="errors">
+        <p><%= @error %></p>
+      </div>
+    <% end %>
+    
+    <div class="voting-section">
+      <h2>About <%= @game.name %></h2>
+      <p class="position"><%= @game.position %></p>
+      
+      <form method="post" action="/voting">
+        <div class="form-group">
+          <label for="voter_id">Who are you?</label>
+          <select id="voter_id" name="voter_id" required>
+            <option value="">Select your name...</option>
+            <% @users.each do |user| %>
+              <option value="<%= user.id %>"><%= user.full_name %></option>
+            <% end %>
+          </select>
+        </div>
+        
+        <h3>Which statement do you think is the LIE?</h3>
+        <div class="statements-voting">
+          <% @game.statements.each_with_index do |statement, index| %>
+            <label class="statement-option">
+              <input type="radio" name="selected_statement" value="<%= statement[:type] %>" required>
+              <div class="statement-text">
+                <strong>Statement <%= index + 1 %>:</strong>
+                <%= statement[:text] %>
+              </div>
+            </label>
+          <% end %>
+        </div>
+        
+        <button type="submit" class="btn btn-large">Cast Your Vote</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
