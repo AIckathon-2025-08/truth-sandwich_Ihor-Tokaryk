@@ -28,7 +28,7 @@ Real-time results with automatic updates. **Note**: While the game is active, al
 ### Demo Video
 Watch the full game flow in action:
 
-https://github.com/AIckathon-2025-08/truth-sandwich_Ihor-Tokaryk/blob/main/docs/media/screen-capture.webm
+https://drive.google.com/file/d/1HYwFSmOjT54uvXdr3OMwxdCItKQy-wJC/view?usp=sharing
 
 *Or use the repository video file:*
 <video width="800" controls>
