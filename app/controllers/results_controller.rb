@@ -10,7 +10,7 @@ class ResultsController < ApplicationController
     else
       @vote_counts = @game.vote_counts
       @total_votes = @game.total_votes
-      @statements = @game.statements
+      @statements = @game.statements_for_results
       erb :'results/index'
     end
   end
@@ -25,7 +25,7 @@ class ResultsController < ApplicationController
       { active: false }.to_json
     else
       vote_counts = @game.vote_counts
-      statements = @game.statements
+      statements = @game.statements_for_results
       
       {
         active: true,

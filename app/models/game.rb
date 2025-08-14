@@ -21,6 +21,14 @@ class Game < ActiveRecord::Base
     ].shuffle
   end
   
+  def statements_for_results
+    [
+      { type: 'truth_1', text: truth_1 },
+      { type: 'truth_2', text: truth_2 },
+      { type: 'lie', text: lie }
+    ]
+  end
+  
   def vote_counts
     {
       truth_1: votes.where(selected_statement: 'truth_1').count,
