@@ -31,7 +31,14 @@ class UsersController < ApplicationController
       admin: params[:admin] == 'on'
     )
     
-    if @user.save
+    # Handle image upload
+    if params[:image] && params[:image][:tempfile]
+      unless @user.save_uploaded_image(params[:image])
+        @user.errors.add(:image, "Invalid image file. Please upload a JPG, PNG, or GIF file.")
+      end
+    end
+    
+    if @user.errors.empty? && @user.save
       redirect "/users/#{@user.id}"
     else
       erb :'users/new'
@@ -50,13 +57,22 @@ class UsersController < ApplicationController
   put '/:id' do
     @user = User.find(params[:id])
     
-    if @user.update(
+    # Handle image upload
+    if params[:image] && params[:image][:tempfile]
+      unless @user.save_uploaded_image(params[:image])
+        @user.errors.add(:image, "Invalid image file. Please upload a JPG, PNG, or GIF file.")
+      end
+    end
+    
+    user_params = {
       first_name: params[:first_name],
       last_name: params[:last_name],
       email: params[:email],
       position: params[:position],
       admin: params[:admin] == 'on'
-    )
+    }
+    
+    if @user.errors.empty? && @user.update(user_params)
       redirect "/users/#{@user.id}"
     else
       erb :'users/edit'
@@ -70,6 +86,15 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.destroy
     redirect '/users'
+  rescue ActiveRecord::RecordNotFound
+    halt 404, "User not found"
+  end
+  
+  # Delete user image
+  delete '/:id/image' do
+    @user = User.find(params[:id])
+    @user.delete_image
+    redirect "/users/#{@user.id}"
   rescue ActiveRecord::RecordNotFound
     halt 404, "User not found"
   end

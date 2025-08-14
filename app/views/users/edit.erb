@@ -24,7 +24,7 @@
       </div>
     <% end %>
     
-    <form method="post" action="/users/<%= @user.id %>">
+    <form method="post" action="/users/<%= @user.id %>" enctype="multipart/form-data">
       <input type="hidden" name="_method" value="put">
       
       <div class="form-group">
@@ -45,6 +45,21 @@
       <div class="form-group">
         <label for="position">Position:</label>
         <input type="text" id="position" name="position" value="<%= @user.position %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="image">Profile Image:</label>
+        <% if @user.has_image? %>
+          <div style="margin-bottom: 10px;">
+            <img src="<%= @user.image_url %>" alt="Current profile image" class="image-upload-preview">
+            <form method="post" action="/users/<%= @user.id %>/image" style="display: inline; margin-left: 10px;" onsubmit="return confirm('Are you sure you want to delete this image?')">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="btn btn-danger btn-small">Delete Image</button>
+            </form>
+          </div>
+        <% end %>
+        <input type="file" id="image" name="image" accept="image/*">
+        <small>Supported formats: JPG, PNG, GIF, BMP</small>
       </div>
       
       <div class="form-group">

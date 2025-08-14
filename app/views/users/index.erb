@@ -19,6 +19,7 @@
       <table class="users-table">
         <thead>
           <tr>
+            <th>Photo</th>
             <th>Name</th>
             <th>Email</th>
             <th>Position</th>
@@ -29,6 +30,13 @@
         <tbody>
           <% @users.each do |user| %>
             <tr>
+              <td>
+                <% if user.has_image? %>
+                  <img src="<%= user.image_url %>" alt="<%= user.full_name %>" class="profile-image-small">
+                <% else %>
+                  <div class="profile-image-placeholder">👤</div>
+                <% end %>
+              </td>
               <td><%= user.full_name %></td>
               <td><%= user.email %></td>
               <td><%= user.position %></td>
