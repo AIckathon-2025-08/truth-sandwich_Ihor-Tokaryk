@@ -32,6 +32,16 @@ class GamesController < ApplicationController
       active: true
     )
     
+    # Handle image upload if provided
+    if params[:image] && params[:image][:filename]
+      unless @game.save_uploaded_image(params[:image])
+        @games = Game.all.includes(:user).order(created_at: :desc)
+        @users = User.all.order(:last_name, :first_name)
+        @error = "Failed to upload image. Please try again with a valid image file."
+        return erb :'games/index'
+      end
+    end
+    
     if @game.save
       redirect "/games/#{@game.id}"
     else

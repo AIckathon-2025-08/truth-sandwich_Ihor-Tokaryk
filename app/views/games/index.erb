@@ -26,9 +26,15 @@
       </div>
     <% end %>
     
+    <% if @error %>
+      <div class="errors">
+        <p><%= @error %></p>
+      </div>
+    <% end %>
+    
     <div class="game-section">
       <h2>Create New Game</h2>
-      <form method="post" action="/games">
+      <form method="post" action="/games" enctype="multipart/form-data">
         <div class="form-group">
           <label for="user_id">Select Employee:</label>
           <select id="user_id" name="user_id" required>
@@ -47,6 +53,12 @@
         <div class="form-group">
           <label for="position">Display Position:</label>
           <input type="text" id="position" name="position" placeholder="e.g., Software Engineer" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="image">Profile Picture (optional):</label>
+          <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.gif,.bmp">
+          <small>Supported formats: JPG, PNG, GIF, BMP (Max 5MB)</small>
         </div>
         
         <div class="form-group">

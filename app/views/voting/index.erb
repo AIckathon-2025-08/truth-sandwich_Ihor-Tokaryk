@@ -23,6 +23,12 @@
       <h2>About <%= @game.name %></h2>
       <p class="position"><%= @game.position %></p>
       
+      <% if @game.has_image? %>
+        <div class="game-image">
+          <img src="<%= @game.image_url %>" alt="<%= @game.name %>" style="max-width: 200px; max-height: 200px; border-radius: 8px; margin: 20px 0;">
+        </div>
+      <% end %>
+      
       <form method="post" action="/voting">
         <div class="form-group">
           <label for="voter_id">Who are you?</label>
