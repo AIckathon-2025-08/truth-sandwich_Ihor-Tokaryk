@@ -84,8 +84,10 @@ This will run the app on port 9293 with the code mounted as a volume.
 
 2. **Set up the database:**
    ```bash
-   rake db:create db:migrate
+   rake db:create db:migrate db:seed
    ```
+   
+   This will create the database, run migrations, and populate it with 10 sample users (including 1 admin).
 
 3. **Start the server:**
    ```bash
@@ -97,8 +99,9 @@ This will run the app on port 9293 with the code mounted as a volume.
 
 ## How to Play
 
-### 1. Set Up Users
-- Go to "Manage Users" to add team members
+### 1. Set Up Users (Optional - Sample Data Included)
+- The app comes with 10 sample users including 1 admin
+- Or go to "Manage Users" to add your own team members
 - Add their names, emails, and positions
 
 ### 2. Create a Game (Admin)

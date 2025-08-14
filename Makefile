@@ -38,3 +38,11 @@ restart: stop run
 # Show status
 status:
 	docker-compose ps
+
+# Reseed database with sample data
+reseed:
+	rake db:seed
+
+# Reset and reseed database
+reset-db:
+	rake db:drop db:create db:migrate db:seed

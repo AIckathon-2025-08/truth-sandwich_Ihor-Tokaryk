@@ -17,10 +17,10 @@ sleep 2
 # Check if database exists, if not create and migrate
 if [ ! -f "db/production.sqlite3" ] && [ "$RACK_ENV" = "production" ]; then
     echo "Creating production database..."
-    bundle exec rake db:create db:migrate RACK_ENV=production
+    bundle exec rake db:create db:migrate db:seed RACK_ENV=production
 elif [ ! -f "db/development.sqlite3" ] && [ "$RACK_ENV" = "development" ]; then
     echo "Creating development database..."
-    bundle exec rake db:create db:migrate RACK_ENV=development
+    bundle exec rake db:create db:migrate db:seed RACK_ENV=development
 else
     echo "Database exists, running any pending migrations..."
     bundle exec rake db:migrate RACK_ENV=$RACK_ENV
