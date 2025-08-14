@@ -267,6 +267,31 @@ p {
   border-color: #dc3545;
 }
 
+.neutral-statement {
+  background-color: #f8f9fa;
+  border-color: #6c757d;
+}
+
+.game-status {
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.game-status.active {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #28a745;
+}
+
+.game-status.inactive {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #dc3545;
+}
+
 .vote-info {
   margin: 10px 0;
   font-weight: bold;
@@ -293,6 +318,10 @@ p {
 
 .truth-statement .progress-fill {
   background-color: #28a745;
+}
+
+.neutral-statement .progress-fill {
+  background-color: #6c757d;
 }
 
 /* Game details styles */

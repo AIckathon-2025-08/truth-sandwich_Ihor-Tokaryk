@@ -17,6 +17,16 @@
             document.getElementById('game-position').textContent = game.position;
             document.getElementById('total-votes').textContent = game.total_votes;
             
+            // Update game status indicator
+            const statusElement = document.getElementById('game-status');
+            if (game.active) {
+              statusElement.textContent = '🟢 Game Active - Vote Now!';
+              statusElement.className = 'game-status active';
+            } else {
+              statusElement.textContent = '⚫ Game Ended - Results Final';
+              statusElement.className = 'game-status inactive';
+            }
+            
             // Update vote counts
             game.statements.forEach((statement, index) => {
               const count = game.vote_counts[statement.type];
@@ -27,14 +37,18 @@
               document.getElementById(`statement-${index + 1}-percentage`).textContent = percentage;
               document.getElementById(`statement-${index + 1}-bar`).style.width = percentage + '%';
               
-              // Highlight the lie
+              // Only highlight the lie if game is inactive (show_lie = true)
               const container = document.getElementById(`statement-${index + 1}`);
-              if (statement.type === 'lie') {
+              if (game.show_lie && statement.type === 'lie') {
                 container.classList.add('lie-statement');
                 container.classList.remove('truth-statement');
-              } else {
+              } else if (game.show_lie && statement.type !== 'lie') {
                 container.classList.add('truth-statement');
                 container.classList.remove('lie-statement');
+              } else {
+                // When game is active, don't reveal which is which
+                container.classList.remove('lie-statement', 'truth-statement');
+                container.classList.add('neutral-statement');
               }
             });
           } else {
@@ -70,13 +84,16 @@
       <div class="results-header">
         <h2 id="game-name"><%= @game&.name %></h2>
         <p id="game-position"><%= @game&.position %></p>
+        <p id="game-status" class="game-status <%= @game&.active? ? 'active' : 'inactive' %>">
+          <%= @game&.active? ? '🟢 Game Active - Vote Now!' : '⚫ Game Ended - Results Final' %>
+        </p>
         <p>Total Votes: <span id="total-votes"><%= @total_votes || 0 %></span></p>
       </div>
       
       <div class="results-grid">
         <% if @game %>
           <% @statements.each_with_index do |statement, index| %>
-            <div id="statement-<%= index + 1 %>" class="result-item <%= statement[:type] == 'lie' ? 'lie-statement' : 'truth-statement' %>">
+            <div id="statement-<%= index + 1 %>" class="result-item <%= @show_lie ? (statement[:type] == 'lie' ? 'lie-statement' : 'truth-statement') : 'neutral-statement' %>">
               <h3>Statement <%= index + 1 %></h3>
               <p id="statement-<%= index + 1 %>-text" class="statement-text"><%= statement[:text] %></p>
               <div class="vote-info">
