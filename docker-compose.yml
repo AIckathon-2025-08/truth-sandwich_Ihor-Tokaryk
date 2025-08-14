@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "9292:9292"
+    environment:
+      - RACK_ENV=production
+      - DATABASE_URL=sqlite3:db/production.sqlite3
+    volumes:
+      # Mount the database directory to persist data
+      - ./db:/app/db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9292/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Development service (optional)
+  app-dev:
+    build: .
+    ports:
+      - "9293:9292"
+    environment:
+      - RACK_ENV=development
+      - DATABASE_URL=sqlite3:db/development.sqlite3
+    volumes:
+      # Mount the entire app for development
+      - .:/app
+      - /app/vendor/bundle
+    command: bundle exec rackup --host 0.0.0.0 --port 9292
+    profiles:
+      - dev
