@@ -2,12 +2,50 @@
 
 A fun Sinatra-based web application for playing "Two Truths and a Lie" with your team!
 
+## Screenshots & Demo
+
+### Game Administration
+Create new games with employee pictures and statements:
+
+![Game Administration](docs/media/game-admin-screenshot.png)
+*Admin interface showing game creation form with profile picture upload*
+
+### Voting Interface
+Players vote on which statement they think is the lie:
+
+![Voting Interface](docs/media/voting-interface-screenshot.png)
+*Voting page displaying employee photo and three statements to choose from*
+
+### Live Results
+Real-time results with automatic updates. **Note**: While the game is active, all statements appear in neutral gray to hide the lie!
+
+![Live Results - Active Game](docs/media/live-results-active-screenshot.png)
+*Results page during active voting - lie is hidden with neutral styling*
+
+![Live Results - Completed Game](docs/media/live-results-completed-screenshot.png)
+*Results page after game completion - truths in green, lie in red*
+
+### Demo Video
+Watch the full game flow in action:
+
+https://github.com/user-attachments/assets/your-video-id-here
+
+*Or use the repository video file:*
+<video width="800" controls>
+  <source src="docs/media/truth-sandwich-demo.webm" type="video/webm">
+  <source src="docs/media/truth-sandwich-demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 ## Features
 
 - 🎮 **Game Administration**: Create and manage games for different employees
-- 🗳️ **Employee Voting**: Team members vote on which statement they think is the lie
+- �️ **Profile Pictures**: Upload and display employee photos in games and voting
+- �🗳️ **Employee Voting**: Team members vote on which statement they think is the lie
 - 📊 **Live Results**: Real-time vote tracking with visual progress bars
+- 🎯 **Smart Lie Detection**: The lie is only revealed when the game is deactivated
 - 👥 **User Management**: Admin interface for managing employees
+- 📱 **Responsive Design**: Works great on desktop and mobile devices
 
 ## Quick Start with Docker
 
@@ -112,13 +150,16 @@ This will run the app on port 9293 with the code mounted as a volume.
 
 ### 3. Vote
 - Team members go to "Vote"
+- They can see the employee's photo (if uploaded)
 - Select their name and vote for which statement they think is the LIE
 - Each person can only vote once per game
 
 ### 4. View Results
 - Go to "Live Results" to see real-time voting
 - Results update automatically every 3 seconds
-- The lie is highlighted differently from the truths
+- **Smart Lie Detection**: While the game is active, all statements appear neutral
+- Once the admin deactivates the game, the lie is revealed with color coding
+- Truth statements appear in green, the lie appears in red
 
 ## Application Structure
 
